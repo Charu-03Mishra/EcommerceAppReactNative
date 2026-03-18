@@ -1,7 +1,7 @@
 import axiosInstance from "../../api/axiosInstance";
 
 class AuthServices {
-	constructor(){
+	constructor() {
 		this.axiosInstance = axiosInstance;
 	}
 	async register(data) {

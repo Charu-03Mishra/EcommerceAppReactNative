@@ -111,7 +111,7 @@ const CategoryImages = [
 ];
 
 export default function Category() {
-	const [selected, setSelected] = useState(null);
+	const [selected, setSelected] = useState(CategoryImages[0].categoryName);
 	const [fontsLoaded] = useFonts({
 		Montserrat_600SemiBold,
 	});
@@ -131,7 +131,7 @@ export default function Category() {
 	console.log("isselected", isselected);
 
 	return (
-		<SafeAreaView className=" px-2 bg-gray-200 flex-1">
+		<SafeAreaView className="  bg-gray-200 flex-1">
 			{/* Top Header */}
 			<StatusBar barStyle="dark-content" backgroundColor="white" />
 			<View
@@ -145,7 +145,7 @@ export default function Category() {
 				}}>
 				<View className="flex flex-row  items-center gap-3">
 					<AntDesign
-						name="arrowleft"
+						name="arrow-left"
 						size={22}
 						color="black"
 						onPress={backToHome}
@@ -177,7 +177,7 @@ export default function Category() {
 								className="mb-4">
 								<View
 									className={`w-[55px] h-[55px] rounded-full overflow-hidden border-2 ${
-										item.categoryName === selected?.categoryName
+										item.categoryName === selected
 											? "border-[#f43f5e] shadow-md"
 											: "border-gray-200"
 									}`}>
@@ -193,15 +193,15 @@ export default function Category() {
 
 				{/* Right Grid */}
 				<FlatList
-					data={selected}
+					data={isselected?.subItems || []}
 					numColumns={2}
 					keyExtractor={(_, index) => index.toString()}
 					columnWrapperStyle={{ justifyContent: "flex-start", gap: 12 }}
 					contentContainerStyle={{ padding: 2, gap: 12 }}
 					className="flex-1 ml-2"
-					renderItem={(item) => (
-						<TouchableOpacity activeOpacity={0.85} className="flex-1">
-							<View className="bg-white rounded-2xl shadow-md items-center justify-center w-[120px]">
+					renderItem={({ item }) => (
+						<TouchableOpacity activeOpacity={0.85}  className="flex-1">
+							<View className="bg-white rounded-2xl  shadow-md items-center justify-center w-[120px]">
 								<View className="w-[120px] h-[150px] rounded-md overflow-hidden">
 									<Image
 										className="w-full h-full"

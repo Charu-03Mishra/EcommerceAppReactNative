@@ -7,18 +7,12 @@ import React from "react";
 import { Image, Text, View } from "react-native";
 
 export default function OfferCard({ item }) {
-	const [fontsLoaded] = useFonts({
-		Montserrat_600SemiBold,
-	});
-
-	if (!fontsLoaded) {
-		return null; // or a loader component
-	}
+	
 	return (
 		<View className="  rounded-xl gap-3    ">
 			<View className="">
 				<View
-					className="overflow-hidden  mb-2"
+					className="overflow-hidden "
 					style={{
 						height: 220,
 						borderTopLeftRadius: 10,
@@ -30,11 +24,11 @@ export default function OfferCard({ item }) {
 
 				
 				
-				<View className="flex-row items-center mt-1">
+				<View className="flex-row bg-[#0a9396] items-center">
 					<Text
-						className="text-[16px] px-3  "
+						className="text-[16px] px-3 text-center w-full  "
 						style={{
-							color: "#0a9396",
+							color: "#fff",
 							paddingTop: 5,
                             paddingBottom:5,
 							fontFamily: "Montserrat_600SemiBold",

@@ -7,6 +7,13 @@ import store from "../Redux/Store";
 
 import "@/global.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { getData } from "../utills/LocalStorage";
+import { useFonts } from "@expo-google-fonts/montserrat";
+import { Inter_400Regular, Inter_700Bold } from "@expo-google-fonts/inter";
+import {
+	Poppins_400Regular,
+	Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
 SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient({
@@ -25,25 +32,25 @@ export default function RootNavigation() {
 
 	useEffect(() => {
 		const fetchToken = async () => {
-			try {
-				const storedToken = await AsyncStorage.getItem("userToken");
-				setToken(storedToken);
-				setLoading(false);
-			} catch (error) {
-				console.error("Error fetching token:", error);
-				setLoading(false);
-			}
+			const t = await getData("token");
+			setToken(t);
+			console.log("Token Home Page:", t);
 		};
-
 		fetchToken();
-
-		// Hide splash screen
-		setTimeout(() => {
-			SplashScreen.hideAsync();
-		}, 1000);
 	}, []);
 
-	if (loading) return null; // Show loading until token is checked
+	const [fontsLoaded] = useFonts({
+		Inter_400Regular,
+		Inter_700Bold,
+		Poppins_400Regular,
+		Poppins_700Bold,
+	});
+
+	useEffect(() => {
+		if (fontsLoaded) SplashScreen.hideAsync();
+	}, [fontsLoaded]);
+
+	if (!fontsLoaded) return null;
 
 	return (
 		<QueryClientProvider client={queryClient}>

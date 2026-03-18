@@ -1,14 +1,17 @@
 import Images from "@/constants/Images";
 import Card from "@/src/component/Card/Card";
+import CategoryCard from "@/src/component/CategoryCard/CategoryCard";
 import JwelleryVideoCard from "@/src/component/JwelleryVideoCard/JwelleryVideoCard";
 import OfferCard from "@/src/component/OfferCard/OfferCard";
 import ProductHearder from "@/src/component/ProductHeader/ProductHearder";
 import TopFashionDress from "@/src/component/TopFashionDress/TopFashionDress";
 import TrandingCard from "@/src/component/TrandingCard/TrandingCard";
+import { getData } from "@/src/utills/LocalStorage";
 import {
-	Montserrat_600SemiBold,
 	useFonts,
-} from "@expo-google-fonts/montserrat";
+	Inter_400Regular,
+	Inter_700Bold,
+} from "@expo-google-fonts/inter";
 import {
 	AntDesign,
 	Feather,
@@ -16,10 +19,11 @@ import {
 	FontAwesome6,
 	Ionicons,
 } from "@expo/vector-icons";
+import * as SplashScreen from "expo-splash-screen";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { ResizeMode, Video } from "expo-av";
 import { router } from "expo-router";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
 	Image,
@@ -31,6 +35,7 @@ import {
 	View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import DealHeader from "@/src/component/DealHeader/DealHeader";
 
 const CardData = [
 	{
@@ -368,13 +373,7 @@ export default function HomeScreen() {
 	const videoRef = useRef(null);
 	const navigation = useNavigation();
 	const simpleBrandsVideoRef = useRef(null);
-	const [fontsLoaded] = useFonts({
-		Montserrat_600SemiBold,
-	});
 
-	if (!fontsLoaded) {
-		return null; // or a loader component
-	}
 	return (
 		<SafeAreaView className=" ">
 			<StatusBar barStyle={"dark-content"} backgroundColor={"white"} />
@@ -390,7 +389,11 @@ export default function HomeScreen() {
 
 				<View className="flex-row items-center gap-2">
 					<Image source={Images.Logo} className="w-[38px] h-[31px]" />
-					<Text className="text-[#4392F9] text-[20px] font-bold">Stylish</Text>
+					<Text
+						className="text-[#4392F9] text-[15px] font-bold"
+						style={{ fontFamily: "Inter_700Bold" }}>
+						Stylish
+					</Text>
 				</View>
 
 				<View className="flex-row gap-5">
@@ -407,14 +410,15 @@ export default function HomeScreen() {
 			{/* 🔹 Search Bar */}
 			<TouchableOpacity
 				activeOpacity={0.9}
-				className="px-3 mt-4  border-b border-gray-800  "
+				className="px-3 mt-4   "
 				onPress={() => router.push("/(main)/(tab)/Search")}>
 				<View className="  mb-3 bg-white rounded-lg shadow-md ">
 					<View className="flex-row mx-3 py-2  gap-2 items-center">
 						<Feather name="search" size={22} color="black" />
 						<TextInput
+							style={{ fontFamily: "Inter_400Regular" }}
 							placeholder="Search any Product..."
-							className="flex-1 px-2 text-[15px]"
+							className="flex-1 px-2 text-[15px] placeholder:text-gray-500 placeholder:font-medium placeholder:text-[12px]"
 							placeholderTextColor="#999"
 						/>
 						<FontAwesome name="microphone" size={22} color="black" />
@@ -430,6 +434,7 @@ export default function HomeScreen() {
 
 				<ScrollView
 					horizontal
+					contentContainerStyle={{ paddingRight: 20 }}
 					showsHorizontalScrollIndicator={false}
 					className="flex-1 px-3  ">
 					<View className="flex-row gap-3">
@@ -443,22 +448,35 @@ export default function HomeScreen() {
 									shadowOpacity: 0.2,
 									shadowRadius: 3,
 								}}>
-								<JwelleryVideoCard item={item} key={i} />
+								<TrandingCard
+									item={item}
+									key={i}
+									image={item.images}
+									price={item.price}
+									title={item.title}
+									description={item.description}
+									oldPrice={item.oldPrice}
+									discount={item.discount}
+									rating={item.rating}
+									reviews={item.reviews}
+								/>
 							</View>
 						))}
 					</View>
 				</ScrollView>
+
+				<CategoryCard />
 				{/* 🔹 Deal Section */}
-				<View className="bg-[#4392F9] mx-3 py-5 px-4 rounded-2xl flex-row justify-between items-center mt-2">
+				<View className="bg-[#0a9396] mx-3 py-5 px-4 rounded-2xl flex-row justify-between items-center mt-2">
 					<View>
 						<Text
 							className="text-white text-[20px] font-bold "
-							style={{ fontFamily: "Montserrat_600SemiBold" }}>
+							style={{ fontFamily: "Poppins_700Bold" }}>
 							Deal of the Day
 						</Text>
 						<Text
 							className="text-white font-medium text-sm"
-							style={{ fontFamily: "Montserrat_700SemiBold" }}>
+							style={{ fontFamily: "Poppins_400Regular" }}>
 							22h 55m 20s left
 						</Text>
 					</View>
@@ -466,12 +484,12 @@ export default function HomeScreen() {
 					<TouchableOpacity
 						className="w-14 h-14 rounded-full bg-white items-center justify-center shadow-md"
 						activeOpacity={0.7}>
-						<AntDesign name="arrowright" size={24} color="black" />
+						<AntDesign name="arrow-right" size={24} color="black" />
 					</TouchableOpacity>
 				</View>
 
 				{/* 🔹 Product Cards */}
-				<View className="mt-2 px-3 flex-row flex-wrap gap-3">
+				<View className="mt-5 px-3 flex-row flex-wrap gap-3">
 					{CardData.map((item, i) => (
 						<View
 							key={item.id}
@@ -483,7 +501,20 @@ export default function HomeScreen() {
 								shadowOpacity: 0.2,
 								shadowRadius: 3,
 							}}>
-							<Card item={item} key={i} />
+							<Card
+								item={item}
+								key={i}
+								type={"jpg"}
+								image={item.images}
+								price={item.price}
+								title={item.title}
+								description={item.description}
+								oldPrice={item.oldPrice}
+								discount={item.discount}
+								rating={item.rating}
+								reviews={item.reviews}
+								onPress={() => router.push("/(main)/(tab)/Product/Product")}
+							/>
 						</View>
 					))}
 				</View>
@@ -503,16 +534,17 @@ export default function HomeScreen() {
 					<View className="flex-1">
 						<Text
 							className="text-lg "
-							style={{ fontFamily: "Montserrat_600SemiBold" }}>
+							style={{ fontFamily: "Poppins_700Bold" }}>
 							Special Offers
 						</Text>
 						<Text
 							className="text-md text-gray-500 leading-5"
-							style={{ fontFamily: "Montserrat_400Regular" }}>
+							style={{ fontFamily: "Poppins_400Regular" }}>
 							We make sure you get the offer you need at the best prices.
 						</Text>
 					</View>
 				</View>
+				{/* 🔹 ebazaar */}
 				<View
 					className="mt-5  mx-3 overflow-hidden"
 					style={{
@@ -532,45 +564,27 @@ export default function HomeScreen() {
 						resizeMode={ResizeMode.COVER}
 					/>
 				</View>
-				<View
-					className="flex-1 mt-5 mx-3 rounded-lg bg-white py-3"
-					style={{
-						elevation: 5, // Android shadow
-						shadowColor: "#000", // iOS shadow
-						shadowOffset: { width: 0, height: 3 },
-						shadowOpacity: 0.15,
-						shadowRadius: 4,
-					}}>
-					<View className="flex-row items-center  px-4 justify-between">
-						<Text
-							className="text-[22px] text-[#0a9396]"
-							style={{ fontFamily: "Montserrat_600SemiBold" }}>
-							Trending
-						</Text>
 
-						<TouchableOpacity
-							onPress={() => router.push("/(main)/Products/Products")}
-							className="w-11 h-11 rounded-full bg-[#0a9396] items-center justify-center"
-							activeOpacity={0.7}
-							style={{
-								elevation: 4,
-								shadowColor: "#0a9396",
-								shadowOffset: { width: 0, height: 2 },
-								shadowOpacity: 0.25,
-								shadowRadius: 3,
-							}}>
-							<AntDesign name="arrowright" size={22} color="white" />
-						</TouchableOpacity>
-					</View>
+				{/* Trending */}
 
+				<View className="mt-5">
+					<DealHeader
+						arrowup={<AntDesign name="arrow-up" size={18} color="#0a9396" />}
+						title="DISCOVER"
+						subtitle="Trending"
+						see="See All"
+						onPress={() => router.push("/(main)/Products/Products")}
+						arrowright={<AntDesign name="arrow-right" size={13} color="#fff" />}
+					/>
 					<ScrollView
 						horizontal
+						contentContainerStyle={{ paddingRight: 20 }}
 						showsHorizontalScrollIndicator={false}
-						className="flex-1 mt-2 mx-1 ">
+						className="flex-1 px-3 mt-4  ">
 						<View className="flex-row gap-3">
 							{TrandingCardData.map((item, i) => (
 								<View
-									className="bg-white rounded-[10px]  mb-2  "
+									className="bg-white rounded-[10px] overflow-hidden   mb-2  "
 									style={{
 										elevation: 2,
 										shadowColor: "#93c5fd",
@@ -578,13 +592,25 @@ export default function HomeScreen() {
 										shadowOpacity: 0.2,
 										shadowRadius: 3,
 									}}>
-									<TrandingCard item={item} key={i} />
+									<TrandingCard
+										item={item}
+										key={i}
+										image={item.images}
+										price={item.price}
+										title={item.title}
+										description={item.description}
+										oldPrice={item.oldPrice}
+										discount={item.discount}
+										rating={item.rating}
+										reviews={item.reviews}
+									/>
 								</View>
 							))}
 						</View>
 					</ScrollView>
 				</View>
 
+				{/* Big Sale */}
 				<View
 					className="mt-5 mx-3 rounded-lg overflow-hidden"
 					style={{
@@ -604,6 +630,7 @@ export default function HomeScreen() {
 						resizeMode={ResizeMode.COVER}
 					/>
 				</View>
+				{/* Jwellery */}
 				<View
 					className="w-[340px] h-56 mt-5 mx-3 rounded-lg "
 					style={{
@@ -620,16 +647,10 @@ export default function HomeScreen() {
 						}}
 					/>
 				</View>
-				<View
-					className="flex-1 mt-5 mx-3 rounded-lg bg-white py-3"
-					style={{
-						elevation: 5, // Android shadow
-						shadowColor: "#000", // iOS shadow
-						shadowOffset: { width: 0, height: 3 },
-						shadowOpacity: 0.15,
-						shadowRadius: 4,
-					}}>
-					<View className="flex-row items-center  px-4 justify-between">
+
+				{/* Top deals */}
+				<View className="mt-5">
+					{/* <View className="flex-row items-center  px-4 justify-between">
 						<Text
 							className="text-[16px] text-[#0a9396]"
 							style={{ fontFamily: "Montserrat_600SemiBold" }}>
@@ -646,11 +667,19 @@ export default function HomeScreen() {
 								shadowOpacity: 0.25,
 								shadowRadius: 3,
 							}}>
-							<AntDesign name="arrowright" size={22} color="white" />
+							<AntDesign name="arrow-right" size={22} color="white" />
 						</TouchableOpacity>
-					</View>
+					</View> */}
+					<DealHeader
+						arrowup={<AntDesign name="arrow-up" size={18} color="#0a9396" />}
+						title="Top deals on Fashion"
+						subtitle="Deals"
+						see="See All"
+						onPress={() => router.push("/(main)/Products/Products")}
+						arrowright={<AntDesign name="arrow-right" size={13} color="#fff" />}
+					/>
 
-					<View className="mt-2 mx-1 flex-row flex-wrap gap-3">
+					<View className="mt-4  px-3 mx-1 flex-row flex-wrap gap-3">
 						{FashionCardData.map((item, i) => (
 							<View
 								key={item.id}
@@ -662,43 +691,38 @@ export default function HomeScreen() {
 									shadowOpacity: 0.2,
 									shadowRadius: 3,
 								}}>
-								<TopFashionDress item={item} />
+								<Card
+									item={item}
+									key={i}
+									video={item.images}
+									image={item.images}
+									price={item.price}
+									title={item.title}
+									description={item.description}
+									oldPrice={item.oldPrice}
+									discount={item.discount}
+									rating={item.rating}
+									reviews={item.reviews}
+									onPress={() => router.push("/(main)/(tab)/Product/Product")}
+								/>
+								{/* <TopFashionDress item={item}/> */}
 							</View>
 						))}
 					</View>
 				</View>
 
-				<View
-					className="flex-1 mt-5 mx-3 mb-[30px]  rounded-lg bg-white py-3"
-					style={{
-						elevation: 5, // Android shadow
-						shadowColor: "#000", // iOS shadow
-						shadowOffset: { width: 0, height: 3 },
-						shadowOpacity: 0.15,
-						shadowRadius: 4,
-					}}>
-					<View className="flex-row items-center  px-4 justify-between">
-						<Text
-							className="text-[16px] text-[#0a9396]"
-							style={{ fontFamily: "Montserrat_600SemiBold" }}>
-							Prices ka dhamaka 😱
-						</Text>
+				{/* price damaka */}
+				<View className="mt-5 mb-[30px]">
+					<DealHeader
+						arrowup={<AntDesign name="arrow-up" size={18} color="#0a9396" />}
+						title="Prices ka dhamaka 😱"
+						subtitle="Prices"
+						see="See All"
+						onPress={() => router.push("/(main)/Products/Products")}
+						arrowright={<AntDesign name="arrow-right" size={13} color="#fff" />}
+					/>
 
-						<TouchableOpacity
-							className="w-11 h-11 rounded-full bg-[#0a9396] items-center justify-center"
-							activeOpacity={0.7}
-							style={{
-								elevation: 4,
-								shadowColor: "#0a9396",
-								shadowOffset: { width: 0, height: 2 },
-								shadowOpacity: 0.25,
-								shadowRadius: 3,
-							}}>
-							<AntDesign name="arrowright" size={22} color="white" />
-						</TouchableOpacity>
-					</View>
-
-					<View className="mt-2 flex-row flex-wrap mx-2 gap-3">
+					<View className="mt-4  px-3 mx-1 flex-row flex-wrap gap-3">
 						{OfferCardData.map((item, i) => (
 							<View
 								key={item.id}

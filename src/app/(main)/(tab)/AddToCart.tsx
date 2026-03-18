@@ -75,13 +75,6 @@ const CardData = [
 ];
 export default function CategoriesScreen() {
 	const [isQuentity, setIsQuantity] = useState(1);
-	const [fontsLoaded] = useFonts({
-		Montserrat_600SemiBold,
-	});
-
-	if (!fontsLoaded) {
-		return null;
-	}
 
 	const isNext = () => {
 		setIsQuantity((prev) => prev + 1);
@@ -105,13 +98,18 @@ export default function CategoriesScreen() {
 					shadowOpacity: 0.1,
 					shadowRadius: 3,
 					elevation: 4,
-          paddingTop:10
+					paddingTop: 10,
 				}}>
 				<View className="flex flex-row items-center px-3 justify-between">
 					<View className="flex flex-row items-center gap-3">
-						<AntDesign name="arrowleft" size={22} color="black" onPress={()=> router.push("/(main)/(tab)")} />
+						<AntDesign
+							name="arrow-left"
+							size={22}
+							color="black"
+							onPress={() => router.push("/(main)/(tab)")}
+						/>
 						<Text
-							style={{ fontFamily: "Montserrat_600SemiBold" }}
+							style={{ fontFamily: "Poppins_700Bold" }}
 							className="text-[14px]">
 							My Cart
 						</Text>
@@ -121,16 +119,14 @@ export default function CategoriesScreen() {
 				<View className="flex flex-row justify-between items-center mt-3">
 					<Text
 						className="text-[#1a1d1d]"
-						style={{ fontFamily: "Montserrat_700SemiBold" }}>
+						style={{ fontFamily: "Poppins_400Regular" }}>
 						Deliver to :{" "}
-						<Text style={{ fontFamily: "Montserrat_600SemiBold" }}>
-							Haridwar
-						</Text>
+						<Text style={{ fontFamily: "Poppins_700Bold" }}>Haridwar</Text>
 					</Text>
 					<Pressable className="border border-[#0a9396] py-2 px-6 rounded-lg">
 						<Text
 							className="text-[#0a9396]"
-							style={{ fontFamily: "Montserrat_700SemiBold" }}>
+							style={{ fontFamily: "Poppins_400Regular" }}>
 							Change
 						</Text>
 					</Pressable>
@@ -153,7 +149,7 @@ export default function CategoriesScreen() {
 							shadowRadius: 3,
 							elevation: 4,
 						}}>
-						<View className="px-1 flex-row gap-5 items-center rounded-lg">
+						<View className="px-3 pt-2 flex-row gap-5 items-center rounded-lg">
 							{/* Left Image + Quantity */}
 							<View className="flex flex-col mb-4">
 								<View className="w-[90px] h-[130px] rounded-lg  py-2">
@@ -164,7 +160,7 @@ export default function CategoriesScreen() {
 									/>
 								</View>
 								{/* Quantity Selector */}
-								<View className="flex-row items-center gap-3  bg-white border border-green-800 rounded-lg w-[90px] px-[9px] py-1">
+								<View className="flex-row items-center gap-3  bg-white border border-[#0a9396] rounded-lg w-[90px] px-[9px] py-1">
 									<Pressable
 										className="w-5 h-8 items-center justify-center"
 										onPress={isPrev}
@@ -200,14 +196,14 @@ export default function CategoriesScreen() {
 							<View className="flex-1 bg-white mb-3 ">
 								{/* Title */}
 								<Text
-									style={{ fontFamily: "Montserrat_600SemiBold" }}
-									className="text-[12px] pb-2 px-1 text-black"
+									style={{ fontFamily: "Poppins_700Bold" }}
+									className="text-[15px]  px-1 text-black"
 									numberOfLines={1}
 									ellipsizeMode="tail">
 									{item.title}
 								</Text>
 								<Text
-									style={{ fontFamily: "Montserrat_900SemiBold" }}
+									style={{ fontFamily: "Poppins_400Regular" }}
 									className="text-md px-1 text-gray-400"
 									numberOfLines={1}
 									ellipsizeMode="tail">
@@ -249,7 +245,7 @@ export default function CategoriesScreen() {
 									<Text
 										style={{
 											marginLeft: 6,
-											fontFamily: "Montserrat_600Medium",
+											fontFamily: "Poppins_400Regular",
 											color: "green",
 										}}>
 										{item.rating.toFixed(1)}
@@ -260,7 +256,7 @@ export default function CategoriesScreen() {
 								<View className="flex-row items-center mt-2 gap-3">
 									<Text
 										style={{
-											fontFamily: "Montserrat_600SemiBold",
+											fontFamily: "Poppins_400Regular",
 											color: "#15803d",
 											fontSize: 14,
 										}}>
@@ -268,7 +264,7 @@ export default function CategoriesScreen() {
 									</Text>
 									<Text
 										style={{
-											fontFamily: "Montserrat_700Bold",
+											fontFamily: "Poppins_400Regular",
 											textDecorationLine: "line-through",
 											color: "#9ca3af",
 											fontSize: 14,
@@ -277,7 +273,7 @@ export default function CategoriesScreen() {
 									</Text>
 									<Text
 										style={{
-											fontFamily: "Montserrat_600SemiBold",
+											fontFamily: "Poppins_400Regular",
 											fontSize: 14,
 											color: "#111827",
 										}}>
@@ -285,7 +281,7 @@ export default function CategoriesScreen() {
 									</Text>
 								</View>
 								<Text
-									style={{ fontFamily: "Montserrat_700SemiBold" }}
+									style={{ fontFamily: "Poppins_400Regular" }}
 									className="text-md px-1 text-gray-500"
 									numberOfLines={1}
 									ellipsizeMode="tail">
@@ -303,21 +299,17 @@ export default function CategoriesScreen() {
 							<Text>
 								<FontAwesome6 name="truck-fast" size={17} color="black" />
 							</Text>
-							<Text style={{ fontFamily: "Montserrat_600SemiBold" }}>
-								Express
-							</Text>
+							<Text style={{ fontFamily: "Poppins_400Regular" }}>Express</Text>
 
-							<Text style={{ fontFamily: "Montserrat_700SemiBold" }}>
+							<Text style={{ fontFamily: "Poppins_400Regular" }}>
 								Delivery in 2 days, sat
 							</Text>
 						</View>
 
-						<View
-							className="flex flex-row items-center px-3 justify-between  py-3"
-							>
+						<View className="flex flex-row items-center px-3 justify-between  py-3">
 							<TouchableOpacity
 								activeOpacity={0.8}
-								className="bg-red-500 px-6 py-3 rounded-2xl flex flex-row items-center justify-center shadow-md"
+								className="bg-white border border-[#0a9396] px-6 py-3 rounded-2xl flex flex-row items-center justify-center shadow-md"
 								style={{
 									shadowColor: "#000",
 									shadowOffset: { width: 0, height: 2 },
@@ -328,19 +320,19 @@ export default function CategoriesScreen() {
 								<MaterialIcons
 									name="delete"
 									size={22}
-									color="white"
+									color="#0a9396"
 									style={{ marginRight: 8 }}
 								/>
 								<Text
-									className="text-white text-[16px]"
-									style={{ fontFamily: "Montserrat_700Bold" }}>
+									className="text-[#0a9396] text-[16px]"
+									style={{ fontFamily: "Poppins_400Regular" }}>
 									Remove
 								</Text>
 							</TouchableOpacity>
 
 							<TouchableOpacity
 								activeOpacity={0.8}
-								className="bg-black px-6 py-3 rounded-2xl flex flex-row items-center justify-center shadow-md"
+								className="bg-[#0a9396] px-6 py-3 rounded-2xl flex flex-row items-center justify-center shadow-md"
 								style={{
 									shadowColor: "#000",
 									shadowOffset: { width: 0, height: 2 },
@@ -356,7 +348,7 @@ export default function CategoriesScreen() {
 								/>
 								<Text
 									className="text-white text-[16px]"
-									style={{ fontFamily: "Montserrat_700Bold" }}>
+									style={{ fontFamily: "Poppins_400Regular" }}>
 									Buy Now
 								</Text>
 							</TouchableOpacity>
@@ -377,19 +369,22 @@ export default function CategoriesScreen() {
 				}}>
 				<View className="">
 					<Text
-						style={{ fontFamily: "Montserrat_600SemiBold", textDecorationLine:"line-through" }}
+						style={{
+							fontFamily: "Poppins_400Regular",
+							textDecorationLine: "line-through",
+						}}
 						className="text-[12px] text-gray-400">
 						12,000
 					</Text>
 					<Text
-						style={{ fontFamily: "Montserrat_600SemiBold" }}
+						style={{ fontFamily: "Poppins_400Regular" }}
 						className="text-[16px]">
 						8,000
 					</Text>
 				</View>
 				<TouchableOpacity
 					activeOpacity={0.8}
-					className="bg-green-600 px-6 py-3 rounded-2xl flex flex-row items-center justify-center shadow-md"
+					className="bg-[#0a9396] px-6 py-3 rounded-2xl flex flex-row items-center justify-center shadow-md"
 					style={{
 						shadowColor: "#000",
 						shadowOffset: { width: 0, height: 2 },
@@ -399,7 +394,7 @@ export default function CategoriesScreen() {
 					}}>
 					<Text
 						className="text-white text-[16px]"
-						style={{ fontFamily: "Montserrat_600Bold" }}>
+						style={{ fontFamily: "Poppins_400Regular" }}>
 						Place Order
 					</Text>
 				</TouchableOpacity>

@@ -55,4 +55,12 @@ export default {
 	search1: require("@/assets/images/7850979ca57c7e0c6a2ed180505148dc.jpg"),
 	search2: require("@/assets/images/a450393e13e486a976a770e81c66bc53.jpg"),
 	search3: require("@/assets/images/d8d9b52de8fbd844ff1722f6d2f74b90.jpg"),
+	cat1: require("@/assets/images/6805beeff670a0f16726df1b4d6e1b6f.jpg"),
+	cat2: require("@/assets/images/7f9780828c668d4744c655c53c3eed84.jpg"),
+	cat3: require("@/assets/images/d3c51f4d2a7b6009e6b8945465e4452c.jpg"),
+	cat4: require("@/assets/images/c40722ebee34570d499003c2e3a236c7.jpg"),
+	sneaker_grey_red_background: require("@/assets/images/aa12c00d1b2f14379c83fcad163a844f.jpg"),
+	sneakers_blue_hanging: require("@/assets/images/e8cd68472aa518ddd50f26450255a27f.jpg"),
+	blue_high_top_sneaker: require("@/assets/images/2c1f193d7b1093321aca18922b8cfb5a.jpg"),
+	brown_ankle_boots: require("@/assets/images/33bf24413cb67bd682dd2eb5d5cfe9ab.webp"),
 };

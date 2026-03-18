@@ -13,8 +13,12 @@ export const useLogin = () => {
 		mutationFn: (data) => authServices.login(data),
 		onSuccess: (data) => {
 			console.log("Login success:", data.data.token);
-			saveData("token", data?.data?.token);
-			saveData("user", data?.data?.user);
+			if (data?.data?.token) {
+				saveData("token", data.data.token);
+			}
+			if (data) {
+				saveData("user", JSON.stringify(data));
+			}
 		},
 		onError: (error) => {
 			console.log("Login error:", error);

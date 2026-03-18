@@ -19,6 +19,7 @@ import React, { useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import ReactNativeModal from "react-native-modal"; // ✅ correct import
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useUser } from "@/src/hooks/user.hooks";
 
 const orders = [
 	{
@@ -28,7 +29,7 @@ const orders = [
 	},
 	{
 		name: "WishList",
-		icon: <AntDesign name="hearto" size={16} color="#51A2FF" />,
+		icon: <AntDesign name="heart" size={16} color="#51A2FF" />,
 		routing: "/(main)/WishList/WishList",
 	},
 	{
@@ -50,6 +51,9 @@ export default function Account() {
 	const [fontsLoaded] = useFonts({
 		Montserrat_600SemiBold,
 	});
+	const userData = useUser();
+
+	console.log("userData", userData);
 
 	if (!fontsLoaded) {
 		return null; // or a loader component
@@ -72,12 +76,12 @@ export default function Account() {
 						<View>
 							<Text
 								className="text-[15px] text-gray-800"
-								style={{ fontFamily: "Montserrat_600SemiBold" }}>
+								style={{ fontFamily: "Poppins_700Bold" }}>
 								Aryan
 							</Text>
 							<Text
 								className="text-[12px] text-gray-500"
-								style={{ fontFamily: "Montserrat_600SemiBold" }}>
+								style={{ fontFamily: "Poppins_700Bold" }}>
 								+91 8976546789
 							</Text>
 						</View>
@@ -91,7 +95,7 @@ export default function Account() {
 							/>
 							<Text
 								className="ml-1 text-[14px] text-gray-700"
-								style={{ fontFamily: "Montserrat_600SemiBold" }}>
+								style={{ fontFamily: "Poppins_400Regular" }}>
 								0
 							</Text>
 						</View>
@@ -104,15 +108,15 @@ export default function Account() {
 								key={index}
 								onPress={() =>
 									item.routing
-										? router.push(item.routing)
+										? router.push(item?.routing)
 										: console.warn("No route defined for", item.name)
 								}
 								activeOpacity={0.7}
 								className="w-[48%] bg-gray-50 px-3 py-5 rounded-lg border border-gray-200 flex-row items-center  gap-2">
 								<Text>{item.icon}</Text>
 								<Text
-									className="text-[13px] text-gray-700"
-									style={{ fontFamily: "Montserrat_600SemiBold" }}>
+									className="text-[14px] text-gray-700"
+									style={{ fontFamily: "Poppins_700Bold" }}>
 									{item.name}
 								</Text>
 							</TouchableOpacity>
@@ -175,8 +179,8 @@ export default function Account() {
 							activeOpacity={0.6}>
 							{item.icon}
 							<Text
-								className="ml-3 text-[13px] text-gray-800"
-								style={{ fontFamily: "Montserrat_600SemiBold" }}>
+								className="ml-3 text-[14px] text-gray-800"
+								style={{ fontFamily: "Poppins_400Regular" }}>
 								{item.label}
 							</Text>
 						</TouchableOpacity>
@@ -220,11 +224,11 @@ export default function Account() {
 
 				{/* Logout */}
 				<TouchableOpacity
-					className="mt-5 mb-3 mx-4 py-4 rounded-xl border border-[#0BBCB5] bg-white"
+					className="mt-5 mb-3 mx-4 py-4 rounded-xl border border-[#0a9396] bg-white"
 					activeOpacity={0.7}>
 					<Text
-						className="text-center text-[14px] text-[#0BBCB5]"
-						style={{ fontFamily: "Montserrat_600SemiBold" }}>
+						className="text-center text-[14px] text-[#0a9396]"
+						style={{ fontFamily: "Poppins_700Bold" }}>
 						Logout
 					</Text>
 				</TouchableOpacity>

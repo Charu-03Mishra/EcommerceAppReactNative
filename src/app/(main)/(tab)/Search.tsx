@@ -21,7 +21,7 @@ const orders = [
 	},
 	{
 		name: "Ferrari Jacket",
-		icon: <AntDesign name="hearto" size={16} color="#51A2FF" />,
+		icon: <AntDesign name="heart" size={16} color="#51A2FF" />,
 		routing: "/(main)/WishList/WishList",
 	},
 	{
@@ -144,42 +144,44 @@ const popularProducts = [
 
 export default function Search() {
 	return (
-		<SafeAreaView className=" flex-1 bg-gray-200  ">
+		<SafeAreaView className="flex-1 ">
 			<StatusBar barStyle={"dark-content"} backgroundColor={"white"} />
-			<ScrollView>
-				<View
-					className="bg-white  pb-4"
-					style={{
-						shadowColor: "#000",
-						shadowOffset: { width: 0, height: 2 },
-						shadowOpacity: 0.08,
-						shadowRadius: 4,
-						elevation: 5,
-						paddingTop: 12,
-					}}>
-					{/* Header Row */}
-					<View className="flex-row items-center px-4 gap-6">
-						{/* Back Button */}
-						<AntDesign
-							name="arrowleft"
-							size={24}
-							color="black"
-							onPress={() => router.push("/(main)/(tab)")}
-						/>
+			{/* <ScrollView> */}
+			<View
+				className="bg-white  pb-4"
+				style={{
+					shadowColor: "#000",
+					shadowOffset: { width: 0, height: 2 },
+					shadowOpacity: 0.08,
+					shadowRadius: 4,
+					elevation: 5,
+					paddingTop: 12,
+				}}>
+				{/* Header Row */}
+				<View className="flex-row items-center px-4 gap-6">
+					{/* Back Button */}
+					<AntDesign
+						name="arrow-left"
+						size={24}
+						color="black"
+						onPress={() => router.push("/(main)/(tab)")}
+					/>
 
-						{/* Search Box */}
-						<View className="flex-1">
-							<View className="flex-row items-center  border border-gray-400 bg-white rounded-lg px-3 py-1 shadow-sm">
-								<Feather name="search" size={20} color="#4B5563" />
-								<TextInput
-									className="px-2 py-2 text-base "
-									placeholder="Search by...."
-									placeholderTextColor="#9CA3AF"
-								/>
-							</View>
+					{/* Search Box */}
+					<View className="flex-1">
+						<View className="flex-row items-center  border border-gray-400 bg-white rounded-lg px-3 py-1 shadow-sm">
+							<Feather name="search" size={20} color="#4B5563" />
+							<TextInput
+								className="px-2 py-2 text-base "
+								placeholder="Search by...."
+								placeholderTextColor="#9CA3AF"
+							/>
 						</View>
 					</View>
 				</View>
+			</View>
+
+			<ScrollView className="flex-1">
 				<View
 					className="bg-white mb-2 mt-2 px-4"
 					style={{
@@ -190,9 +192,7 @@ export default function Search() {
 						elevation: 5,
 						paddingTop: 12,
 					}}>
-					<Text style={{ fontFamily: "Montserrat_600SemiBold" }}>
-						Recent Searches
-					</Text>
+					<Text style={{ fontFamily: "Poppins_700Bold" }}>Recent Searches</Text>
 					<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 						<View className="flex-row flex-wrap gap-2 mt-1 mb-2">
 							{RecentlySearch.map((img, index) => (
@@ -209,6 +209,7 @@ export default function Search() {
 									<Text
 										style={{
 											maxWidth: 80,
+											fontFamily: "Poppins_400Regular",
 											fontSize: 12,
 											marginTop: 3,
 											textAlign: "center",
@@ -230,7 +231,7 @@ export default function Search() {
 						elevation: 5,
 						paddingTop: 12,
 					}}>
-					<Text style={{ fontFamily: "Montserrat_600SemiBold" }}>
+					<Text style={{ fontFamily: "Poppins_700Bold" }}>
 						Trending Searches
 					</Text>
 					<View className="flex flex-row flex-wrap mb-5 gap-3 mt-4">
@@ -241,7 +242,7 @@ export default function Search() {
 								className="w-[48%] bg-gray-50 px-3 py-5 rounded-lg border border-gray-200 flex-row items-center  gap-2">
 								<Text
 									className="text-[13px] text-gray-700"
-									style={{ fontFamily: "Montserrat_600SemiBold" }}>
+									style={{ fontFamily: "Poppins_700Bold" }}>
 									{item.name}
 								</Text>
 							</TouchableOpacity>
@@ -250,7 +251,7 @@ export default function Search() {
 				</View>
 
 				<View
-					className="bg-white mb-2 mt-2 px-4"
+					className="bg-white mt-2 px-4"
 					style={{
 						shadowColor: "#000",
 						shadowOffset: { width: 0, height: 2 },
@@ -259,7 +260,7 @@ export default function Search() {
 						elevation: 5,
 						paddingTop: 12,
 					}}>
-					<Text style={{ fontFamily: "Montserrat_600SemiBold" }}>
+					<Text style={{ fontFamily: "Poppins_700Bold" }}>
 						Popular Products
 					</Text>
 
@@ -274,7 +275,7 @@ export default function Search() {
 										<View key={index} className="items-center">
 											<TouchableOpacity
 												activeOpacity={0.8}
-												className="border border-gray-300 rounded-xl w-[105px] h-[170px] overflow-hidden shadow-sm bg-white">
+												className="border border-gray-300 rounded-xl w-[105px] overflow-hidden shadow-sm bg-white">
 												<Image
 													source={{ uri: item.image }}
 													className="w-full h-[130px]"
@@ -284,9 +285,14 @@ export default function Search() {
 													numberOfLines={1}
 													style={{
 														fontSize: 12,
-														marginTop: 4,
+														fontFamily: "Poppins_400Regular",
+
 														textAlign: "center",
-														padding: 2,
+														color: "white",
+														paddingTop: 2,
+														paddingBottom: 2,
+
+														backgroundColor: "#0a9396",
 													}}>
 													{item.name}
 												</Text>
@@ -298,6 +304,7 @@ export default function Search() {
 					</View>
 				</View>
 			</ScrollView>
+			{/* </ScrollView> */}
 		</SafeAreaView>
 	);
 }
