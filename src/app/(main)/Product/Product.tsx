@@ -123,25 +123,25 @@ export default function ProductScreen() {
 
 
 				{/* Dots Indicator */}
-				<View className="flex-row justify-center mt-2">
+				{/* <View className="flex-row justify-center mt-2">
 					{product.images.map((_, i) => (
 						<View
 							key={i}
 							className={`w-2 h-2 mx-1 rounded-full ${
-								i === activeIndex ? "bg-black" : "bg-gray-400"
+								i === activeIndex ? "bg-black w-2 h-2 mx-1 rounded-full" : "bg-gray-400"
 							}`}
 						/>
 					))}
-				</View>
+				</View> */}
 
 				<ScrollView horizontal showsHorizontalScrollIndicator={false}>
-					<View className="flex-row flex-wrap gap-2 px-4 mt-6">
+					<View className="flex-row flex-wrap gap-2 px-4">
 						{product.images.map((img, index) => (
 							<TouchableOpacity
 								key={index}
 								onPress={() => setActiveIndex(index)}
 								className={`border-2 rounded-md ${
-									activeIndex === index ? "border-pink-600" : "border-gray-300"
+									activeIndex === index ? "border-[#0a9396]" : "border-gray-300"
 								}`}>
 								<Image source={img} className="w-[75px] h-28 rounded-md" />
 							</TouchableOpacity>
@@ -153,37 +153,37 @@ export default function ProductScreen() {
 					<Text
 						className="text-gray-800 text-[16px]"
 						style={{
-							fontFamily: "Montserrat_600SemiBold",
+							fontFamily: "Poppins_700Bold",
 						}}>
 						{product.title}
 					</Text>
 					<Text
 						className="text-gray-500 text-[14px]"
 						style={{
-							fontFamily: "Montserrat_700SemiBold",
+							fontFamily: "Poppins_400Regular",
 						}}>
 						{product.description}
 					</Text>
 				</View>
-				<View className="flex-row items-center gap-3 px-4 mt-2 ">
+				<View className="flex-row items-center gap-3 px-4  ">
 					<Text
 						className="text-green-700 text-[16px]"
 						style={{
-							fontFamily: "Montserrat_600SemiBold",
+							fontFamily: "Poppins_400Regular",
 						}}>
 						{product.discount}
 					</Text>
 					<Text
 						className="text-gray-800 text-[16px]"
 						style={{
-							fontFamily: "Montserrat_600SemiBold",
+							fontFamily: "Poppins_400Regular",
 						}}>
 						{product.price}
 					</Text>
 					<Text
 						className="text-gray-500 text-[14px]"
 						style={{
-							fontFamily: "Montserrat_700SemiBold",
+							fontFamily: "Poppins_400Regular",
 							textDecorationLine:"line-through"
 						}}>
 						{product.oldPrice}
@@ -226,7 +226,7 @@ export default function ProductScreen() {
 							color: "green", // Tailwind gray-500
 							fontSize: 14,
 							
-							fontFamily: "Montserrat_600SemiBold",
+							fontFamily: "Poppins_400Regular",
 						}}>{product.rating}</Text>
 					</View>
 
@@ -237,13 +237,13 @@ export default function ProductScreen() {
 							color: "#6b7280", // Tailwind gray-500
 							fontSize: 14,
 							
-							fontFamily: "Montserrat_700SemiBold",
+							fontFamily: "Poppins_400Regular",
 						}}>
 						{product.reviews} reviews
 					</Text>
 				</View>
 				<View className="px-4 pt-4">
-	<Text style={{ fontFamily: "Montserrat_600SemiBold" }}>Select Size</Text>
+	<Text style={{ fontFamily: "Poppins_700Bold" }}>Select Size</Text>
 
 	<View className="flex-row flex-wrap mt-2 items-center gap-2">
 		{sizes.map((sz) => {
@@ -257,7 +257,7 @@ export default function ProductScreen() {
 					}`}>
 					<Text
 						className={`${active ? "text-white" : "text-black"} text-[14px]`}
-						style={{ fontFamily: "Montserrat_700SemiBold" }}>
+						style={{ fontFamily: "Poppins_400Regular" }}>
 						{sz}
 					</Text>
 				</TouchableOpacity>
@@ -268,15 +268,15 @@ export default function ProductScreen() {
 
 
 				<View className="px-4 pb-4 mt-8 border-b border-gray-400">
-					<Text className="text-[15px]" style={{ fontFamily: "Montserrat_600SemiBold" }}>
+					<Text className="text-[15px]" style={{ fontFamily: "Poppins_700Bold" }}>
 						Deliverd to : 249408
 					</Text>
 					<View className="flex flex-row justify-between items-center">
-						<Text className="text-[15px]" style={{ fontFamily: "Montserrat_600SemiBold" }}>
+						<Text className="text-[15px]" style={{ fontFamily: "Poppins_400Regular" }}>
 							Kankhal, Haridwar
 						</Text>
 						<TouchableOpacity className=" bg-gray-50 px-3 py-2 rounded-lg border border-gray-200 flex-row items-center  gap-2">>
-							<Text className="text-[15px]" style={{ fontFamily: "Montserrat_700SemiBold" }}>Change</Text>
+							<Text className="text-[15px]" style={{ fontFamily: "Poppins_400Regular" }}>Change</Text>
 						</TouchableOpacity>
 					</View>
 				</View>
@@ -285,11 +285,11 @@ export default function ProductScreen() {
 							<Text>
 								<FontAwesome6 name="truck-fast" size={17} color="#4b5563" />
 							</Text>
-							<Text className="text-[16px]" style={{ fontFamily: "Montserrat_600SemiBold" }}>
+							<Text className="text-[16px]" style={{ fontFamily: "Poppins_700Bold" }}>
 								Express
 							</Text>
 
-							<Text className="text-[15px] text-gray-600" style={{ fontFamily: "Montserrat_700SemiBold" }}>
+							<Text className="text-[15px] text-gray-600" style={{ fontFamily: "Poppins_400Regular" }}>
 								Delivery in 2 days, sat
 							</Text>
 						</View>
@@ -297,7 +297,7 @@ export default function ProductScreen() {
 							<Text>
 							<MaterialCommunityIcons name="arrow-u-left-top" size={24} color="#4b5563" />
 							</Text>
-							<Text className="text-[16px] text-gray-600" style={{ fontFamily: "Montserrat_700SemiBold" }}>
+							<Text className="text-[16px] text-gray-600" style={{ fontFamily: "Poppins_400Regular" }}>
 								10 days return Policy
 							</Text>
 
@@ -306,7 +306,7 @@ export default function ProductScreen() {
 							<Text>
 						<MaterialCommunityIcons name="cash-100" size={24} color="#4b5563" />
 							</Text>
-							<Text className="text-[16px] text-gray-600" style={{ fontFamily: "Montserrat_700SemiBold" }}>
+							<Text className="text-[16px] text-gray-600" style={{ fontFamily: "Poppins_400Regular" }}>
 								Cash on Delivery Available
 							</Text>
 
@@ -324,17 +324,17 @@ export default function ProductScreen() {
 			shadowRadius: 3,
 			elevation: 4,
 		}}>
-		<FontAwesome name="shopping-cart" size={20} color="#0BBCB5" />
+		<FontAwesome name="shopping-cart" size={20} color="#0a9396" />
 		<Text
-			className="text-[#0BBCB5] text-[16px]"
-			style={{ fontFamily: "Montserrat_700Bold" }}>
+			className="text-[#0a9396] text-[16px]"
+			style={{ fontFamily: "Poppins_700Bold" }}>
 			Add To Cart
 		</Text>
 	</TouchableOpacity>
 
 	<TouchableOpacity
 		activeOpacity={0.8}
-		className="flex-1 bg-[#0BBCB5] py-3 rounded-lg flex flex-row items-center justify-center shadow-md"
+		className="flex-1 bg-[#0a9396] py-3 rounded-lg flex flex-row items-center justify-center shadow-md"
 		style={{
 			shadowColor: "#000",
 			shadowOffset: { width: 0, height: 2 },
@@ -344,7 +344,7 @@ export default function ProductScreen() {
 		}}>
 		<Text
 			className="text-white text-[16px]"
-			style={{ fontFamily: "Montserrat_700Bold" }}>
+			style={{ fontFamily: "Poppins_700Bold" }}>
 			Buy Now
 		</Text>
 	</TouchableOpacity>

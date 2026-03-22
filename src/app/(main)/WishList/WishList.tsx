@@ -1,4 +1,5 @@
 import Images from "@/constants/Images";
+import Card from "@/src/component/Card/Card";
 import WishListCard from "@/src/component/WishListCard/WishListCard";
 import { AntDesign } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -92,13 +93,13 @@ export default function WishList() {
 				<View className="flex flex-row items-center px-3 justify-between">
 					<View className="flex flex-row items-center gap-3">
 						<AntDesign
-							name="arrowleft"
+							name="arrow-left"
 							size={22}
 							color="black"
 							onPress={() => router.push("/(main)/(tab)")}
 						/>
 						<Text
-							style={{ fontFamily: "Montserrat_600SemiBold" }}
+							style={{ fontFamily: "Poppins_700Bold" }}
 							className="text-[14px]">
 							My WishList
 						</Text>
@@ -120,9 +121,21 @@ export default function WishList() {
 								shadowOffset: { width: 0, height: 2 },
 								shadowOpacity: 0.2,
 								shadowRadius: 3,
-								width: 164
+								width: 164,
 							}}>
-							<WishListCard item={item} />
+							<Card
+								item={item}
+								price={item.price}
+								oldPrice={item.oldPrice}
+								discount={item.discount}
+								rating={item.rating}
+								reviews={item.reviews}
+								video={item.images}
+								image={item.images}
+								title={item.title}
+								description={item.description}
+								onPress={() => router.push("/(main)/Product/Product")}
+							/>
 						</View>
 					))}
 				</View>

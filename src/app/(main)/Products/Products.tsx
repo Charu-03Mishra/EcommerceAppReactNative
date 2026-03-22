@@ -22,6 +22,8 @@ import { TextInput } from "react-native-gesture-handler";
 import { router } from "expo-router";
 import ReactNativeModal from "react-native-modal";
 import ShopingAddress from "@/src/component/ShopingAddress/ShopingAddress";
+import Search from "@/src/component/Search/Search";
+import { useProducts } from "@/src/hooks/product.hooks";
 const CardData = [
 	{
 		id: "1",
@@ -92,6 +94,8 @@ const CardData = [
 ];
 export default function Products() {
 	const [activeModal, setActiveModal] = useState("");
+	const { data: Productsdta, isLoading, isError } = useProducts();
+	console.log(Productsdta?.data?.data, "ProductDatahfhf");
 	return (
 		<SafeAreaView className="flex-1 bg-gray-200">
 			<StatusBar barStyle={"dark-content"} backgroundColor={"white"} />
@@ -109,29 +113,22 @@ export default function Products() {
 				<View className="flex-row items-center px-4 gap-6">
 					{/* Back Button */}
 					<AntDesign
-						name="arrowleft"
+						name="arrow-left"
 						size={24}
 						color="black"
 						onPress={() => router.push("/(main)/(tab)")}
 					/>
 
 					{/* Search Box */}
-					<View className="flex-1">
-						<View className="flex-row items-center  border border-gray-400 bg-white rounded-lg px-3  shadow-sm">
-							<Feather name="search" size={20} color="#4B5563" />
-							<TextInput
-								className="px-2 py-[4px] text-base "
-								placeholder="Search by...."
-								placeholderTextColor="#9CA3AF"
-							/>
-						</View>
+					<View className="flex-1 ">
+						<Search placeholder="Search by...." />
 					</View>
 					<FontAwesome name="shopping-cart" size={24} color="black" />
 				</View>
 			</View>
 			<ScrollView contentContainerStyle={{ paddingBottom: 6 }}>
 				<View className="mt-2 px-3 flex-row flex-wrap gap-3">
-					{CardData.map((item, i) => (
+					{Productsdta?.data?.data?.map((item: any, i: number) => (
 						<View
 							key={item.id}
 							className="w-[48%] bg-white  rounded-[10px] overflow-hidden"
@@ -142,7 +139,20 @@ export default function Products() {
 								shadowOpacity: 0.2,
 								shadowRadius: 3,
 							}}>
-							<Card item={item} key={i} />
+							<Card
+								item={item}
+								key={i}
+								title={item.name}
+								description={item.description}
+								price={item.price}
+								oldPrice={item.oldPrice}
+								discount={item.discount}
+								rating={item.rating}
+								reviews={item.review_count}
+								// video={item.images}
+								image={item.images}
+								onPress={() => router.push("/(main)/Product/Product")}
+							/>
 						</View>
 					))}
 				</View>

@@ -1,7 +1,7 @@
 import Images from "@/constants/Images";
 import Card from "@/src/component/Card/Card";
 import CategoryCard from "@/src/component/CategoryCard/CategoryCard";
-import JwelleryVideoCard from "@/src/component/JwelleryVideoCard/JwelleryVideoCard";
+
 import OfferCard from "@/src/component/OfferCard/OfferCard";
 import ProductHearder from "@/src/component/ProductHeader/ProductHearder";
 import TopFashionDress from "@/src/component/TopFashionDress/TopFashionDress";
@@ -36,6 +36,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DealHeader from "@/src/component/DealHeader/DealHeader";
+import { useProducts } from "@/src/hooks/product.hooks";
 
 const CardData = [
 	{
@@ -373,6 +374,7 @@ export default function HomeScreen() {
 	const videoRef = useRef(null);
 	const navigation = useNavigation();
 	const simpleBrandsVideoRef = useRef(null);
+	const { data: Productsdta, isLoading, isError } = useProducts();
 
 	return (
 		<SafeAreaView className=" ">
@@ -438,7 +440,7 @@ export default function HomeScreen() {
 					showsHorizontalScrollIndicator={false}
 					className="flex-1 px-3  ">
 					<View className="flex-row gap-3">
-						{JwlleryCardData.map((item, i) => (
+						{Productsdta?.data?.data?.slice(0, 5).map((item: any, i: number) => (
 							<View
 								className="bg-white rounded-[10px] overflow-hidden   mb-2  "
 								style={{
@@ -453,19 +455,19 @@ export default function HomeScreen() {
 									key={i}
 									image={item.images}
 									price={item.price}
-									title={item.title}
+									title={item.name}
 									description={item.description}
-									oldPrice={item.oldPrice}
-									discount={item.discount}
+									oldPrice={item.discount_price}
+									discount={item.discount_percentage}
 									rating={item.rating}
-									reviews={item.reviews}
+									reviews={item.review_count}
 								/>
 							</View>
 						))}
 					</View>
 				</ScrollView>
 
-				<CategoryCard />
+				<CategoryCard Productsdta={Productsdta} />
 				{/* 🔹 Deal Section */}
 				<View className="bg-[#0a9396] mx-3 py-5 px-4 rounded-2xl flex-row justify-between items-center mt-2">
 					<View>
@@ -504,7 +506,7 @@ export default function HomeScreen() {
 							<Card
 								item={item}
 								key={i}
-								type={"jpg"}
+								video={item.images}
 								image={item.images}
 								price={item.price}
 								title={item.title}
@@ -513,7 +515,7 @@ export default function HomeScreen() {
 								discount={item.discount}
 								rating={item.rating}
 								reviews={item.reviews}
-								onPress={() => router.push("/(main)/(tab)/Product/Product")}
+								onPress={() => router.push("/(main)/Products/Products")}
 							/>
 						</View>
 					))}

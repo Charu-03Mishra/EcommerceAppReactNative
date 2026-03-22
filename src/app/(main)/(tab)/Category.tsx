@@ -121,7 +121,7 @@ export default function Category() {
 	}
 
 	const isselected = CategoryImages.find(
-		(cat) => cat.categoryName === selected
+		(cat) => cat.categoryName === selected,
 	);
 
 	const backToHome = () => {
@@ -175,6 +175,7 @@ export default function Category() {
 								key={i}
 								onPress={() => setSelected(item.categoryName)} // 👈 set full category object
 								className="mb-4">
+								{/* <Text>{item?.categoryName}</Text> */}
 								<View
 									className={`w-[55px] h-[55px] rounded-full overflow-hidden border-2 ${
 										item.categoryName === selected
@@ -182,7 +183,7 @@ export default function Category() {
 											: "border-gray-200"
 									}`}>
 									<Image
-										source={item.Images}
+										source={item?.Images}
 										className="w-full h-full rounded-full"
 									/>
 								</View>
@@ -200,7 +201,7 @@ export default function Category() {
 					contentContainerStyle={{ padding: 2, gap: 12 }}
 					className="flex-1 ml-2"
 					renderItem={({ item }) => (
-						<TouchableOpacity activeOpacity={0.85}  className="flex-1">
+						<TouchableOpacity activeOpacity={0.85} className="flex-1">
 							<View className="bg-white rounded-2xl  shadow-md items-center justify-center w-[120px]">
 								<View className="w-[120px] h-[150px] rounded-md overflow-hidden">
 									<Image

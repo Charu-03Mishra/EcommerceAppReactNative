@@ -10,7 +10,11 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function EditProfile({ setActiveModal }) {
+export default function EditProfile({
+	setActiveModal,
+}: {
+	setActiveModal: (modal: string | null) => void;
+}) {
 	const [mobile, setMobile] = useState("+91 1234567890");
 	const [name, setName] = useState("Aryan");
 	const [email, setEmail] = useState("aryan56786@gmail.com");

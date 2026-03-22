@@ -23,7 +23,7 @@ export default function TrandingCard({
 	description: string;
 	price: string;
 	oldPrice: string;
-	discount: string;
+	discount: number;
 	rating: number;
 	reviews: string;
 }) {
@@ -34,14 +34,17 @@ export default function TrandingCard({
 				style={{ width: 200 }}
 				onPress={() => router.push("/(main)/Product/Product")}>
 				<View
-					className="overflow-hidden  mb-2"
+					className="overflow-hidden "
 					style={{
 						height: 200,
 						borderTopLeftRadius: 10,
 						borderTopRightRadius: 10,
 						overflow: "hidden",
 					}}>
-					<Image className="w-full h-full " source={image} resizeMode="cover" />
+					<Image
+						className="w-full h-full"
+						source={typeof image === "string" ? { uri: image } : image}
+					/>
 					{/* <Image
 						source={image}
 						style={{ width: "100%", height: "100%" }}
@@ -49,7 +52,7 @@ export default function TrandingCard({
 					/> */}
 				</View>
 
-				<View className="px-2">
+				<View className="px-2 ">
 					<Text
 						style={{ fontFamily: "Poppins_700Bold" }}
 						className="font-semibold1 text-md px-1 text-black"
@@ -69,31 +72,38 @@ export default function TrandingCard({
 					<View
 						className="flex-row items-center justify-between "
 						style={{ marginTop: 5 }}>
-						<Text
-							className="text-base px-1  text-black mr-2"
-							style={{ fontFamily: "Poppins_400Regular" }}>
-							{price}
-						</Text>
-						<Text
-							className="text-base px-1  text-gray-500 mr-2"
-							style={{
-								textDecorationLine: "line-through",
+						{discount > 0 && (
+							<Text
+								className="text-base px-1  text-gray-500 mr-2 "
+								style={{
+									fontFamily: "Poppins_400Regular",
+								}}>
+								{oldPrice}
+							</Text>
+						)}
 
+						<Text
+							className="text-base px-1 text-black mr-2"
+							style={{
 								fontFamily: "Poppins_400Regular",
+								textDecorationLine: discount > 0 ? "line-through" : "none",
+								color: discount > 0 ? "#9CA3AF" : "#000000", // gray out when discounted
 							}}>
-							{oldPrice}
+							₹{price}
 						</Text>
 					</View>
 					<View className="flex-row items-center mt-1">
-						<Text
-							className="text-base px-1 "
-							style={{
-								color: "#f87171",
-								paddingTop: 5,
-								fontFamily: "Poppins_700Bold",
-							}}>
-							{discount}
-						</Text>
+						{discount > 0 && (
+							<Text
+								className="text-base px-1 "
+								style={{
+									color: "#f87171",
+									paddingTop: 5,
+									fontFamily: "Poppins_700Bold",
+								}}>
+								{discount}%
+							</Text>
+						)}
 					</View>
 					<View className="flex-col  gap-2 pt-2 px-1">
 						{/* ⭐ Rating Stars */}

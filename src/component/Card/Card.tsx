@@ -29,11 +29,13 @@ export default function Card({
 	video: any;
 	price: string;
 	oldPrice: string;
-	discount: string;
+	discount: number;
 	rating: number;
 	reviews: string;
 }) {
 	const videoRef = useRef(null);
+	console.log("imagesjhgjhgj", image);
+
 	return (
 		<View className="  rounded-xl gap-3   ">
 			<Pressable className="" onPress={onPress}>
@@ -57,7 +59,10 @@ export default function Card({
 							borderTopRightRadius: 10,
 							overflow: "hidden",
 						}}>
-						<Image className="w-full h-full " source={image} />
+						<Image
+							className="w-full h-full"
+							source={typeof image === "string" ? { uri: image } : image}
+						/>
 					</View>
 				)}
 				{/* {video && (
@@ -102,10 +107,10 @@ export default function Card({
 					</View>
 				)} */}
 
-				<View className="px-2">
+				<View className="px-2 ">
 					<Text
-						style={{ fontFamily: "Poppins_700Bold", fontSize: 12 }}
-						className="font-semibold1  px-1 text-black"
+						style={{ fontFamily: "Poppins_700Bold" }}
+						className="font-semibold1 text-md px-1 text-black"
 						numberOfLines={1}>
 						{title}
 					</Text>
@@ -122,31 +127,38 @@ export default function Card({
 					<View
 						className="flex-row items-center justify-between "
 						style={{ marginTop: 5 }}>
-						<Text
-							className="text-base px-1  text-black mr-2"
-							style={{ fontFamily: "Poppins_400Regular" }}>
-							{price}
-						</Text>
-						<Text
-							className="text-base px-1  text-gray-500 mr-2"
-							style={{
-								textDecorationLine: "line-through",
+						{discount > 0 && (
+							<Text
+								className="text-base px-1  text-gray-500 mr-2 "
+								style={{
+									fontFamily: "Poppins_400Regular",
+								}}>
+								{oldPrice}
+							</Text>
+						)}
 
+						<Text
+							className="text-base px-1 text-black mr-2"
+							style={{
 								fontFamily: "Poppins_400Regular",
+								textDecorationLine: discount > 0 ? "line-through" : "none",
+								color: discount > 0 ? "#9CA3AF" : "#000000", // gray out when discounted
 							}}>
-							{oldPrice}
+							₹{price}
 						</Text>
 					</View>
 					<View className="flex-row items-center mt-1">
-						<Text
-							className="text-base px-1 "
-							style={{
-								color: "#f87171",
-								paddingTop: 5,
-								fontFamily: "Poppins_400Regular",
-							}}>
-							{discount}
-						</Text>
+						{discount > 0 && (
+							<Text
+								className="text-base px-1 "
+								style={{
+									color: "#f87171",
+									paddingTop: 5,
+									fontFamily: "Poppins_700Bold",
+								}}>
+								{discount}%
+							</Text>
+						)}
 					</View>
 					<View className="flex-col  gap-2 pt-2 px-1">
 						{/* ⭐ Rating Stars */}

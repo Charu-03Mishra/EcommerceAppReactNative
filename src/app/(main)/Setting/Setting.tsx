@@ -24,7 +24,7 @@ export default function Setting() {
 				<View className="flex flex-row items-center px-3 justify-between">
 					<View className="flex flex-row items-center gap-3">
 						<AntDesign
-							name="arrowleft"
+							name="arrow-left"
 							size={22}
 							color="black"
 							onPress={() => router.push("/(main)/(tab)")}

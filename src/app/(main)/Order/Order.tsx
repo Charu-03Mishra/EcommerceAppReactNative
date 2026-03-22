@@ -77,13 +77,13 @@ export default function Order() {
 				<View className="flex flex-row items-center px-3 justify-between">
 					<View className="flex flex-row items-center gap-3">
 						<AntDesign
-							name="arrowleft"
+							name="arrow-left"
 							size={22}
 							color="black"
 							onPress={() => router.push("/(main)/(tab)")}
 						/>
 						<Text
-							style={{ fontFamily: "Montserrat_600SemiBold" }}
+							style={{ fontFamily: "Poppins_700Bold" }}
 							className="text-[14px]">
 							My Order
 						</Text>
@@ -105,7 +105,7 @@ export default function Order() {
 						<Feather name="search" size={22} color="black" />
 						<TextInput
 							placeholder="Search Your Order...."
-							className="flex-1 px-2 text-[15px]"
+							className="flex-1 px-2 text-[15px] placeholder:text-[15px]"
 							placeholderTextColor="#999"
 						/>
 					</View>
@@ -137,17 +137,17 @@ export default function Order() {
 								{/* Texts */}
 								<View className="flex-1 pr-2">
 									<Text
-										style={{ fontFamily: "Montserrat_600SemiBold" }}
+										style={{ fontFamily: "Poppins_400Regular" }}
 										className={`${
 											item.status === false ? "text-red-600" : "text-green-700"
-										} text-[12px] pb-1`}
+										} text-[14px] pb-1`}
 										numberOfLines={1}
 										ellipsizeMode="tail">
 										{item.delivery}
 									</Text>
 
 									<Text
-										style={{ fontFamily: "Montserrat_600SemiBold" }}
+										style={{ fontFamily: "Poppins_400Regular" }}
 										className="text-[13px] text-black flex-shrink"
 										numberOfLines={2}
 										ellipsizeMode="tail">
