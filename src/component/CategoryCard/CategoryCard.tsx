@@ -1,18 +1,73 @@
 import { View, Text, Image, Pressable, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { categoriesData } from "@/constants/Category";
 import { useRouter } from "expo-router";
+import { useProducts } from "@/src/hooks/product.hooks";
+import { Skeleton } from "moti/skeleton";
 
-export default function CategoryCard({ Productsdta }: any) {
+interface subcategoryData {
+	subcategory: string;
+}
+export default function CategoryCard() {
 	const router = useRouter();
-	const category = Productsdta?.data?.data?.filter(
-		(item: any) => item.subcategory === "Necklaces",
-	);
-	const categoryRing = Productsdta?.data?.data?.filter(
-		(item: any) => item.subcategory === "Earrings",
-	);
-	console.log("categoryvhjhgjhNecklaces", Productsdta?.data?.data?.length);
+	const [earrings, setEarrings] = useState<any[]>([]);
+	const [necklaces, setNecklaces] = useState<any[]>([]);
+	const [cocktailDresses, setCocktailDresses] = useState<any[]>([]);
+	const [lehenga, setLehenga] = useState<any[]>([]);
+
+	// Use two separate mutation hooks since we want to fire both concurrently
+	const EarringsMutation = useProducts();
+	const NecklacesMutation = useProducts();
+	const CocktailDressesMutation = useProducts();
+	const LehengaMutation = useProducts();
+
+	useEffect(() => {
+		EarringsMutation.mutate(
+			{ subCategory: "Earrings" },
+			{
+				onSuccess: (res: any) => {
+					setEarrings(res?.data?.data || []);
+				},
+			},
+		);
+	}, []);
+
+	useEffect(() => {
+		NecklacesMutation.mutate(
+			{ subCategory: "Necklaces" },
+			{
+				onSuccess: (res: any) => {
+					// Extract the array correctly and fallback to empty array if no data exists
+					setNecklaces(res?.data?.data || []);
+				},
+			},
+		);
+	}, []);
+	useEffect(() => {
+		CocktailDressesMutation.mutate(
+			{ subCategory: "Cocktail Dresses" },
+			{
+				onSuccess: (res: any) => {
+					// Extract the array correctly and fallback to empty array if no data exists
+					setCocktailDresses(res?.data?.data || []);
+				},
+			},
+		);
+	}, []);
+	useEffect(() => {
+		LehengaMutation.mutate(
+			{ subCategory: "Lehenga" },
+			{
+				onSuccess: (res: any) => {
+					setLehenga(res?.data?.data || []);
+				},
+			},
+		);
+	}, []);
+
+	console.log("earringsyguhi", earrings);
+
 	return (
 		<View className="px-3 mt-2">
 			<View className="flex-row justify-between items-center">
@@ -29,7 +84,11 @@ export default function CategoryCard({ Productsdta }: any) {
 					</Text>
 					<TouchableOpacity
 						activeOpacity={0.5}
-						onPress={() => router.push("/(main)/(tab)/Category")}
+						onPress={() => {
+							router.push({
+								pathname: "/(main)/(tab)/Category",
+							});
+						}}
 						className=" px-2 py-2 rounded-xl "
 						style={{ backgroundColor: "#0a9396", borderRadius: 50 }}>
 						<AntDesign name="arrow-right" size={15} color="#fff" />
@@ -38,53 +97,68 @@ export default function CategoryCard({ Productsdta }: any) {
 			</View>
 
 			<View className="flex-row flex-wrap gap-3 mt-5 mb-3">
-				<View className="w-[48%] bg-white border border-gray-200 pt-2 rounded-lg shadow-md ">
+				{/* Earrings Card */}
+				<View className="w-[48%] bg-white border border-gray-200 p-2 rounded-lg shadow-md ">
 					<View className="flex-row flex-wrap">
-						{category?.map((item: any) => (
-							<>
-								<TouchableOpacity
-									onPress={() => router.push("/(main)/Products/Products")}
-									className=" py-1 px-1 rounded-lg"
-									style={{ width: "50%" }}>
-									<View className="w-full h-24 rounded-lg">
-										<Image
-											source={{ uri: item.images }}
-											className="w-full h-full rounded-lg object-cover"
-										/>
-									</View>
-								</TouchableOpacity>
-							</>
+						{earrings?.slice(0, 4)?.map((item: any, index: number) => (
+							<TouchableOpacity
+								key={index.toString()}
+								onPress={() => {
+									router.push({
+										pathname: "/(main)/Products/Products",
+										params: {
+											subCategory: item?.subCategory,
+										},
+									});
+								}}
+								className=" py-1 px-1 rounded-lg"
+								style={{ width: "50%" }}>
+								<View className="w-full h-24 rounded-lg">
+									<Image
+										source={{ uri: item?.images[0].path || "" }}
+										className="w-full h-full rounded-lg object-scale-down"
+									/>
+								</View>
+							</TouchableOpacity>
 						))}
 					</View>
 					<View className="flex-row items-center justify-between px-2 py-2">
 						<Text
 							className="text-sm font-bold text-[#202020]"
 							style={{ fontFamily: "Poppins_700Bold" }}>
-							Necklaces
+							Earrings
 						</Text>
 						<Text
 							className="text-sm font-bold text-[#202020]"
 							style={{ fontFamily: "Poppins_700Bold" }}>
-							1234
+							{earrings?.length || 0}
 						</Text>
 					</View>
 				</View>
-				<View className="w-[48%] bg-white border border-gray-200 pt-2 rounded-lg shadow-md ">
+
+				{/* Necklaces Card */}
+				<View className="w-[48%] bg-white border border-gray-200 p-2 rounded-lg shadow-md ">
 					<View className="flex-row flex-wrap">
-						{categoryRing?.map((item: any) => (
-							<>
-								<TouchableOpacity
-									onPress={() => router.push("/(main)/Products/Products")}
-									className=" py-1 px-1 rounded-lg"
-									style={{ width: "50%" }}>
-									<View className="w-full h-24 rounded-lg">
-										<Image
-											source={{ uri: item.images }}
-											className="w-full h-full rounded-lg object-cover"
-										/>
-									</View>
-								</TouchableOpacity>
-							</>
+						{necklaces?.slice(0, 4).map((item: any, index: number) => (
+							<TouchableOpacity
+								key={index.toString()}
+								onPress={() => {
+									router.push({
+										pathname: "/(main)/Products/Products",
+										params: {
+											subCategory: item?.subCategory,
+										},
+									});
+								}}
+								className=" py-1 px-1 rounded-lg"
+								style={{ width: "50%" }}>
+								<View className="w-full h-24 rounded-lg">
+									<Image
+										source={{ uri: item?.images[0].path || "" }}
+										className="w-full h-full rounded-lg object-cover"
+									/>
+								</View>
+							</TouchableOpacity>
 						))}
 					</View>
 					<View className="flex-row items-center justify-between px-2 py-2">
@@ -96,7 +170,81 @@ export default function CategoryCard({ Productsdta }: any) {
 						<Text
 							className="text-sm font-bold text-[#202020]"
 							style={{ fontFamily: "Poppins_700Bold" }}>
-							1234
+							{necklaces?.length || 0}
+						</Text>
+					</View>
+				</View>
+				<View className="w-[48%] bg-white border border-gray-200 p-2  rounded-lg shadow-md ">
+					<View className="flex-row gap-1 flex-wrap">
+						{cocktailDresses?.slice(0, 4).map((item: any, index: number) => (
+							<TouchableOpacity
+								key={index.toString()}
+								onPress={() => {
+									router.push({
+										pathname: "/(main)/Products/Products",
+										params: {
+											subCategory: item?.subCategory,
+										},
+									});
+								}}
+								className=" py-1 px-1 rounded-lg"
+								style={{ width: "50%" }}>
+								<View className="w-full h-24 rounded-lg">
+									<Image
+										source={{ uri: item?.images[0].path || "" }}
+										className="w-full h-full rounded-lg "
+									/>
+								</View>
+							</TouchableOpacity>
+						))}
+					</View>
+					<View className="flex-row items-center justify-between px-2 py-2">
+						<Text
+							className="text-sm font-bold text-[#202020]"
+							style={{ fontFamily: "Poppins_700Bold" }}>
+							Cocktail Dresses
+						</Text>
+						<Text
+							className="text-sm font-bold text-[#202020]"
+							style={{ fontFamily: "Poppins_700Bold" }}>
+							{cocktailDresses?.length || 0}
+						</Text>
+					</View>
+				</View>
+				<View className="w-[48%] bg-white border border-gray-200 p-2 rounded-lg shadow-md ">
+					<View className="flex-row flex-wrap">
+						{lehenga?.slice(0, 4).map((item: any, index: number) => (
+							<TouchableOpacity
+								key={index.toString()}
+								onPress={() => {
+									router.push({
+										pathname: "/(main)/Products/Products",
+										params: {
+											subCategory: item?.subCategory,
+										},
+									});
+								}}
+								className=" py-1 px-1 rounded-lg"
+								style={{ width: "50%" }}>
+								<View className="w-full h-24 rounded-lg">
+									<Image
+										source={{ uri: item?.images[0].path || "" }}
+										className="w-full h-full rounded-lg object-cover"
+									/>
+								</View>
+							</TouchableOpacity>
+						))}
+					</View>
+					<View className="flex-row items-center justify-between px-2 py-2">
+						<Text
+							className="text-sm font-bold text-[#202020]"
+							style={{ fontFamily: "Poppins_700Bold" }}>
+							Lehenga
+						</Text>
+						<Text
+							className="text-sm font-bold text-[#202020]"
+							style={{ fontFamily: "Poppins_700Bold" }}>
+							{lehenga?.length || 0}
 						</Text>
 					</View>
 				</View>

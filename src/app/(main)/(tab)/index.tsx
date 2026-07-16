@@ -23,7 +23,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { ResizeMode, Video } from "expo-av";
 import { router } from "expo-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
 	Image,
@@ -38,6 +38,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import DealHeader from "@/src/component/DealHeader/DealHeader";
 import { useProducts } from "@/src/hooks/product.hooks";
 
+type ProductsQuery = {
+	subcategory: string[];
+	page: number;
+};
 const CardData = [
 	{
 		id: "1",
@@ -374,7 +378,59 @@ export default function HomeScreen() {
 	const videoRef = useRef(null);
 	const navigation = useNavigation();
 	const simpleBrandsVideoRef = useRef(null);
-	const { data: Productsdta, isLoading, isError } = useProducts();
+	const ProductData = useProducts();
+	const WeddingAttireData = useProducts();
+	const Trandingsaree = useProducts();
+	const CocktailDressesData = useProducts();
+	const [productData, setProductData] = useState<any[]>([]);
+	const [WeddingAttire, setWeddingAttire] = useState<any[]>([]);
+	const [trandingsaree, setTrandingsaree] = useState<any[]>([]);
+	const [CocktailDresses, setCocktailDresses] = useState<any[]>([]);
+
+	useEffect(() => {
+		ProductData.mutate(undefined, {
+			onSuccess: (res: any) => {
+				console.log(res, "ProductDatahfhf");
+				setProductData(res?.data?.data);
+			},
+		});
+	}, []);
+
+	useEffect(() => {
+		WeddingAttireData.mutate(
+			{ category: "Wedding Attire" },
+			{
+				onSuccess: (res: any) => {
+					console.log(res, "WeddingAttireData");
+					setWeddingAttire(res?.data?.data);
+				},
+			},
+		);
+	}, []);
+	useEffect(() => {
+		Trandingsaree.mutate(
+			{ subCategory: "Saree" },
+			{
+				onSuccess: (res: any) => {
+					console.log(res, "Trandingsaree");
+					setTrandingsaree(res?.data?.data);
+				},
+			},
+		);
+	}, []);
+	useEffect(() => {
+		CocktailDressesData.mutate(
+			{ subCategory: "Cocktail Dresses" },
+			{
+				onSuccess: (res: any) => {
+					console.log(res, "CocktailDressesData");
+					setCocktailDresses(res?.data?.data);
+				},
+			},
+		);
+	}, []);
+
+	console.log("productData", productData);
 
 	return (
 		<SafeAreaView className=" ">
@@ -440,34 +496,51 @@ export default function HomeScreen() {
 					showsHorizontalScrollIndicator={false}
 					className="flex-1 px-3  ">
 					<View className="flex-row gap-3">
-						{Productsdta?.data?.data?.slice(0, 5).map((item: any, i: number) => (
-							<View
-								className="bg-white rounded-[10px] overflow-hidden   mb-2  "
-								style={{
-									elevation: 2,
-									shadowColor: "#93c5fd",
-									shadowOffset: { width: 0, height: 5 },
-									shadowOpacity: 0.2,
-									shadowRadius: 3,
-								}}>
-								<TrandingCard
-									item={item}
-									key={i}
-									image={item.images}
-									price={item.price}
-									title={item.name}
-									description={item.description}
-									oldPrice={item.discount_price}
-									discount={item.discount_percentage}
-									rating={item.rating}
-									reviews={item.review_count}
-								/>
-							</View>
-						))}
+						{productData?.slice(0, 6)?.map((item: any, i: number) => {
+							console.log("item?.price?.discount", item?.price?.discount);
+							console.log(
+								"discount:",
+								item?.price?.discount,
+								typeof item?.price?.discount,
+							);
+
+							return (
+								<View
+									className="bg-white rounded-[10px] overflow-hidden   mb-2  "
+									style={{
+										elevation: 2,
+										shadowColor: "#93c5fd",
+										shadowOffset: { width: 0, height: 5 },
+										shadowOpacity: 0.2,
+										shadowRadius: 3,
+									}}>
+									<TrandingCard
+										item={item}
+										key={i}
+										image={item?.images[0].path}
+										price={item?.price?.mrp}
+										title={item?.title?.shortTitle}
+										description={item?.title?.longTitle}
+										oldPrice={item?.price?.cost}
+										discount={item?.price?.discount}
+										rating={item.rating}
+										reviews={item.review_count}
+										onPress={() => {
+											router.push({
+												pathname: "/(main)/Product/Product",
+												params: {
+													id: item?.id,
+												},
+											});
+										}}
+									/>
+								</View>
+							);
+						})}
 					</View>
 				</ScrollView>
 
-				<CategoryCard Productsdta={Productsdta} />
+				<CategoryCard />
 				{/* 🔹 Deal Section */}
 				<View className="bg-[#0a9396] mx-3 py-5 px-4 rounded-2xl flex-row justify-between items-center mt-2">
 					<View>
@@ -484,6 +557,7 @@ export default function HomeScreen() {
 					</View>
 
 					<TouchableOpacity
+						onPress={() => router.push("/(main)/Products/Products")}
 						className="w-14 h-14 rounded-full bg-white items-center justify-center shadow-md"
 						activeOpacity={0.7}>
 						<AntDesign name="arrow-right" size={24} color="black" />
@@ -492,7 +566,7 @@ export default function HomeScreen() {
 
 				{/* 🔹 Product Cards */}
 				<View className="mt-5 px-3 flex-row flex-wrap gap-3">
-					{CardData.map((item, i) => (
+					{WeddingAttire?.slice(0, 8)?.map((item, i) => (
 						<View
 							key={item.id}
 							className="w-[48%] bg-white  rounded-[10px] overflow-hidden"
@@ -506,16 +580,22 @@ export default function HomeScreen() {
 							<Card
 								item={item}
 								key={i}
-								video={item.images}
-								image={item.images}
-								price={item.price}
-								title={item.title}
-								description={item.description}
-								oldPrice={item.oldPrice}
-								discount={item.discount}
+								image={item?.images[0].path}
+								price={item?.price?.mrp}
+								title={item?.title?.shortTitle}
+								description={item?.title?.longTitle}
+								oldPrice={item?.price?.cost}
+								discount={item?.price?.discount}
 								rating={item.rating}
 								reviews={item.reviews}
-								onPress={() => router.push("/(main)/Products/Products")}
+								onPress={() =>
+									router.push({
+										pathname: "/(main)/Products/Products",
+										params: {
+											subCategory: item?.subCategory,
+										},
+									})
+								}
 							/>
 						</View>
 					))}
@@ -584,7 +664,7 @@ export default function HomeScreen() {
 						showsHorizontalScrollIndicator={false}
 						className="flex-1 px-3 mt-4  ">
 						<View className="flex-row gap-3">
-							{TrandingCardData.map((item, i) => (
+							{trandingsaree?.slice(0, 6)?.map((item, i) => (
 								<View
 									className="bg-white rounded-[10px] overflow-hidden   mb-2  "
 									style={{
@@ -597,14 +677,22 @@ export default function HomeScreen() {
 									<TrandingCard
 										item={item}
 										key={i}
-										image={item.images}
-										price={item.price}
-										title={item.title}
-										description={item.description}
-										oldPrice={item.oldPrice}
-										discount={item.discount}
+										image={item?.images[0].path}
+										price={item?.price?.mrp}
+										title={item?.title?.shortTitle}
+										description={item?.title?.longTitle}
+										oldPrice={item?.price?.cost}
+										discount={item?.price?.discount}
 										rating={item.rating}
 										reviews={item.reviews}
+										onPress={() => {
+											router.push({
+												pathname: "/(main)/Product/Product",
+												params: {
+													id: item?.id,
+												},
+											});
+										}}
 									/>
 								</View>
 							))}
@@ -682,7 +770,7 @@ export default function HomeScreen() {
 					/>
 
 					<View className="mt-4  px-3 mx-1 flex-row flex-wrap gap-3">
-						{FashionCardData.map((item, i) => (
+						{CocktailDresses?.slice(0, 8)?.map((item, i) => (
 							<View
 								key={item.id}
 								className="w-[48%] bg-white  rounded-[10px] overflow-hidden"
@@ -697,15 +785,22 @@ export default function HomeScreen() {
 									item={item}
 									key={i}
 									video={item.images}
-									image={item.images}
-									price={item.price}
-									title={item.title}
-									description={item.description}
-									oldPrice={item.oldPrice}
-									discount={item.discount}
+									image={item?.images[0].path}
+									price={item?.price?.mrp}
+									title={item?.title?.shortTitle}
+									description={item?.title?.longTitle}
+									oldPrice={item?.price?.cost}
+									discount={item?.price?.discount}
 									rating={item.rating}
 									reviews={item.reviews}
-									onPress={() => router.push("/(main)/(tab)/Product/Product")}
+									onPress={() => {
+										router.push({
+											pathname: "/(main)/Product/Product",
+											params: {
+												id: item?.id,
+											},
+										});
+									}}
 								/>
 								{/* <TopFashionDress item={item}/> */}
 							</View>

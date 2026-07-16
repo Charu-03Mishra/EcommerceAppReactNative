@@ -16,6 +16,7 @@ export default function TrandingCard({
 	discount,
 	rating,
 	reviews,
+	onPress,
 }: {
 	item: any;
 	image: string;
@@ -26,13 +27,14 @@ export default function TrandingCard({
 	discount: number;
 	rating: number;
 	reviews: string;
+	onPress: () => void;
 }) {
 	return (
 		<View className="  ">
 			<Pressable
 				className=""
 				style={{ width: 200 }}
-				onPress={() => router.push("/(main)/Product/Product")}>
+				onPress={onPress}>
 				<View
 					className="overflow-hidden "
 					style={{
@@ -72,41 +74,54 @@ export default function TrandingCard({
 					<View
 						className="flex-row items-center justify-between "
 						style={{ marginTop: 5 }}>
-						{discount > 0 && (
-							<Text
-								className="text-base px-1  text-gray-500 mr-2 "
-								style={{
-									fontFamily: "Poppins_400Regular",
-								}}>
-								{oldPrice}
-							</Text>
-						)}
+						{discount !== null &&
+							discount !== undefined &&
+							parseFloat(String(discount)) > 0 && (
+								<Text
+									className="text-base px-1  text-gray-500 mr-2 "
+									style={{
+										fontFamily: "Poppins_400Regular",
+									}}>
+									{oldPrice}
+								</Text>
+							)}
 
 						<Text
 							className="text-base px-1 text-black mr-2"
 							style={{
 								fontFamily: "Poppins_400Regular",
-								textDecorationLine: discount > 0 ? "line-through" : "none",
-								color: discount > 0 ? "#9CA3AF" : "#000000", // gray out when discounted
+								textDecorationLine:
+									discount !== null &&
+									discount !== undefined &&
+									parseFloat(String(discount)) > 0
+										? "line-through"
+										: "none",
+								color:
+									discount !== null &&
+									discount !== undefined &&
+									parseFloat(String(discount)) > 0
+										? "#9CA3AF"
+										: "#000000", // gray out when discounted
 							}}>
 							₹{price}
 						</Text>
 					</View>
 					<View className="flex-row items-center mt-1">
-						{discount > 0 && (
-							<Text
-								className="text-base px-1 "
-								style={{
-									color: "#f87171",
-									paddingTop: 5,
-									fontFamily: "Poppins_700Bold",
-								}}>
-								{discount}%
-							</Text>
-						)}
+						{discount !== null &&
+							discount !== undefined &&
+							parseFloat(String(discount)) > 0 && (
+								<Text
+									className="text-base px-1"
+									style={{
+										color: "#f87171",
+										paddingTop: 5,
+										fontFamily: "Poppins_700Bold",
+									}}>
+									{parseFloat(String(discount))}%
+								</Text>
+							)}
 					</View>
 					<View className="flex-col  gap-2 pt-2 px-1">
-						{/* ⭐ Rating Stars */}
 						<View className="flex-row items-center gap-3">
 							{Array.from({ length: 5 }).map((_, index) => {
 								if (index + 1 <= Math.floor(item.rating)) {
@@ -115,7 +130,7 @@ export default function TrandingCard({
 											key={index}
 											name="star"
 											size={18}
-											color="#FFD700" // gold
+											color="#FFD700"
 										/>
 									);
 								} else if (index < item.rating) {
@@ -133,7 +148,7 @@ export default function TrandingCard({
 											key={index}
 											name="star-o"
 											size={18}
-											color="#d1d5db" // light gray for empty stars
+											color="#d1d5db"
 										/>
 									);
 								}

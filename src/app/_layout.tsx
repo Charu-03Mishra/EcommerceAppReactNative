@@ -28,7 +28,7 @@ const queryClient = new QueryClient({
 
 export default function RootNavigation() {
 	const [token, setToken] = useState<string | null>(null);
-	const [loading, setLoading] = useState(true);
+	// const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchToken = async () => {

@@ -39,7 +39,7 @@ export const renderItem =
 					{item.buttonText && (
 						<TouchableOpacity style={styles.Shopbutton}>
 							<Text style={styles.butttext}>{item.buttonText}</Text>
-							<AntDesign name="arrowright" size={30} color="white" />
+							<AntDesign name="arrow-right" size={30} color="white" />
 						</TouchableOpacity>
 					)}
 				</View>

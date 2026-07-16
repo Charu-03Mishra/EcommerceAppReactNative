@@ -5,7 +5,7 @@ import {
 	ScrollView,
 	TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Images from "@/constants/Images";
 import Card from "@/src/component/Card/Card";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -19,7 +19,7 @@ import {
 	MaterialIcons,
 } from "@expo/vector-icons";
 import { TextInput } from "react-native-gesture-handler";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import ReactNativeModal from "react-native-modal";
 import ShopingAddress from "@/src/component/ShopingAddress/ShopingAddress";
 import Search from "@/src/component/Search/Search";
@@ -94,8 +94,22 @@ const CardData = [
 ];
 export default function Products() {
 	const [activeModal, setActiveModal] = useState("");
-	const { data: Productsdta, isLoading, isError } = useProducts();
-	console.log(Productsdta?.data?.data, "ProductDatahfhf");
+	const AllProductsData = useProducts();
+	const { subCategory } = useLocalSearchParams();
+	const [products, setProducts] = useState<any[]>([]);
+	useEffect(() => {
+		AllProductsData.mutate(
+			{ subCategory: subCategory },
+			{
+				onSuccess: (res: any) => {
+					setProducts(res?.data?.data || []);
+				},
+			},
+		);
+	}, [subCategory]);
+
+	console.log("subCategoryPro", subCategory);
+
 	return (
 		<SafeAreaView className="flex-1 bg-gray-200">
 			<StatusBar barStyle={"dark-content"} backgroundColor={"white"} />
@@ -128,7 +142,7 @@ export default function Products() {
 			</View>
 			<ScrollView contentContainerStyle={{ paddingBottom: 6 }}>
 				<View className="mt-2 px-3 flex-row flex-wrap gap-3">
-					{Productsdta?.data?.data?.map((item: any, i: number) => (
+					{products?.map((item: any, i: number) => (
 						<View
 							key={item.id}
 							className="w-[48%] bg-white  rounded-[10px] overflow-hidden"
@@ -142,16 +156,23 @@ export default function Products() {
 							<Card
 								item={item}
 								key={i}
-								title={item.name}
-								description={item.description}
-								price={item.price}
-								oldPrice={item.oldPrice}
-								discount={item.discount}
-								rating={item.rating}
-								reviews={item.review_count}
+								title={item?.title?.shortTitle}
+								description={item?.title?.longTitle}
+								price={item?.price?.mrp}
+								oldPrice={item?.price?.cost}
+								discount={item?.price?.discount}
+								// rating={item.rating}
+								// reviews={item.review_count}
 								// video={item.images}
-								image={item.images}
-								onPress={() => router.push("/(main)/Product/Product")}
+								image={item?.images[0].path}
+								onPress={() => {
+									router.push({
+										pathname: "/(main)/Product/Product",
+										params: {
+											id: item?.id,
+										},
+									});
+								}}
 							/>
 						</View>
 					))}

@@ -48,16 +48,9 @@ const orders = [
 
 export default function Account() {
 	const [activeModal, setActiveModal] = useState(null);
-	const [fontsLoaded] = useFonts({
-		Montserrat_600SemiBold,
-	});
-	const userData = useUser();
+	const { data: userData } = useUser();
 
-	console.log("userData", userData);
-
-	if (!fontsLoaded) {
-		return null; // or a loader component
-	}
+	// console.log("userData", userData.data);
 
 	return (
 		<SafeAreaView className="bg-gray-100 flex-1">
@@ -77,12 +70,12 @@ export default function Account() {
 							<Text
 								className="text-[15px] text-gray-800"
 								style={{ fontFamily: "Poppins_700Bold" }}>
-								Aryan
+								{userData?.data?.name}
 							</Text>
 							<Text
 								className="text-[12px] text-gray-500"
 								style={{ fontFamily: "Poppins_700Bold" }}>
-								+91 8976546789
+								{userData?.data?.phone}
 							</Text>
 						</View>
 

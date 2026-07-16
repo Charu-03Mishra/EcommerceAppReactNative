@@ -3,6 +3,7 @@ import { userServices } from "../service/User/user";
 
 export const useUser = () => {
 	return useQuery({
+		queryKey: ["user"],
 		queryFn: () => userServices.getUser(),
 	});
 };

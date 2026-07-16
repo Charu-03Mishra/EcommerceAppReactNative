@@ -26,7 +26,7 @@ export default function Card({
 	title: string;
 	description: string;
 	image: any;
-	video: any;
+	video?: any;
 	price: string;
 	oldPrice: string;
 	discount: number;
@@ -127,38 +127,52 @@ export default function Card({
 					<View
 						className="flex-row items-center justify-between "
 						style={{ marginTop: 5 }}>
-						{discount > 0 && (
-							<Text
-								className="text-base px-1  text-gray-500 mr-2 "
-								style={{
-									fontFamily: "Poppins_400Regular",
-								}}>
-								{oldPrice}
-							</Text>
-						)}
+						{discount !== null &&
+							discount !== undefined &&
+							parseFloat(String(discount)) > 0 && (
+								<Text
+									className="text-base px-1  text-gray-500 mr-2 "
+									style={{
+										fontFamily: "Poppins_400Regular",
+									}}>
+									{oldPrice}
+								</Text>
+							)}
 
 						<Text
 							className="text-base px-1 text-black mr-2"
 							style={{
 								fontFamily: "Poppins_400Regular",
-								textDecorationLine: discount > 0 ? "line-through" : "none",
-								color: discount > 0 ? "#9CA3AF" : "#000000", // gray out when discounted
+								textDecorationLine:
+									discount !== null &&
+									discount !== undefined &&
+									parseFloat(String(discount)) > 0
+										? "line-through"
+										: "none",
+								color:
+									discount !== null &&
+									discount !== undefined &&
+									parseFloat(String(discount)) > 0
+										? "#9CA3AF"
+										: "#000000", // gray out when discounted
 							}}>
 							₹{price}
 						</Text>
 					</View>
 					<View className="flex-row items-center mt-1">
-						{discount > 0 && (
-							<Text
-								className="text-base px-1 "
-								style={{
-									color: "#f87171",
-									paddingTop: 5,
-									fontFamily: "Poppins_700Bold",
-								}}>
-								{discount}%
-							</Text>
-						)}
+						{discount !== null &&
+							discount !== undefined &&
+							parseFloat(String(discount)) > 0 && (
+								<Text
+									className="text-base px-1"
+									style={{
+										color: "#f87171",
+										paddingTop: 5,
+										fontFamily: "Poppins_700Bold",
+									}}>
+									{parseFloat(String(discount))}%
+								</Text>
+							)}
 					</View>
 					<View className="flex-col  gap-2 pt-2 px-1">
 						{/* ⭐ Rating Stars */}
